@@ -1,0 +1,16 @@
+{
+    "app": 3001,
+  
+    "host": "140.238.184.159",
+    "user": "gabriel",
+    "password": "chiocheti",
+    "database": "i_tiplace",
+    "port": 3306,
+  
+    "apiKey": "AIzaSyBjemehS5EQki-S_svPwGTMWxgsQNsQ4lQ",
+    "authDomain": "i-tiplace.firebaseapp.com",
+    "projectId": "i-tiplace",
+    "storageBucket": "i-tiplace.appspot.com",
+    "messagingSenderId": "278504979186",
+    "appId": "1:278504979186:web:e422e2ae085fd3c9b2ee6b"
+  }
