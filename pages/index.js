@@ -14,10 +14,12 @@ import Head from 'next/head';
 
 export default function Home() {
 
+  console.log("Main index");
+
+
   return (
     <>
       <NavbarLogOff />
-
       <Head>
         <link
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"

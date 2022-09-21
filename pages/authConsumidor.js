@@ -13,10 +13,12 @@ import {
     Image,
     keyframes,
     Divider,
+
 } from '@chakra-ui/react';
 
 import UseAuth from '../hooks/useAuth'
 import NavbarLogOn from '../components/navbarLogOnConsumidor';
+import Card from '../components/cardEndereco.js';
 import { AspectRatio, useToast } from '@chakra-ui/react'
 import Axios from 'axios';
 import Router from "next/router";
@@ -24,12 +26,25 @@ import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import { FcPhoneAndroid, FcOk, FcApprove } from "react-icons/fc";
 
-export default function autentificado() {
+export default function autentificado(text) {
 
     const { user, signin, signout } = UseAuth();
-    console.log(user);
 
     const toast = useToast()
+
+    var [idC, setIdC] = useState(() => 'idC preset');
+    var [cpf, setCPF] = useState(() => 'CPF preset');
+    var [nome, setNome] = useState(() => 'Nome preset');
+    var [telefone, setTelefone] = useState(() => 'Telefone preset');
+
+    var [usuario, setUsuario] = useState(() => "usuario preset");
+
+    var [enderecos, setEnderecos] = useState([1, 2]);
+
+    //var usuario = null
+
+    console.log("Pagina de Consumidor Identificado")
+    console.log(user);
 
     const options = {
         method: 'GET',
@@ -37,6 +52,11 @@ export default function autentificado() {
     };
     Axios.request(options).then(function (response) {
         console.log(response.data);
+        var resp = response.data
+        var usuario = response.data;
+        //setUsuario(() => resp.id)
+        console.log("Usuario: ");
+        console.log(usuario);
         toast({
             title: 'Login efetuado com sucesso',
             description: `Seja bem vindo de volta!`,
@@ -44,7 +64,7 @@ export default function autentificado() {
             duration: 3000,
             isClosable: true,
         })
-        loadUser();
+        loadConsumidor(usuario.id);
     }).catch(function (error) {
         console.log(error);
         toast({
@@ -54,69 +74,148 @@ export default function autentificado() {
             duration: 3000,
             isClosable: true,
         })
-        Router.push('/cadastro');
+        //Router.push('/cadastro');
     });
 
-    var [idC, setIdC] = useState('idC preset');
-    var [cpf, setCPF] = useState('CPF preset');
-    var [nome, setNome] = useState('Nome preset');
-    var [telefone, setTelefone] = useState('Telefone preset');
-
-    var usuario = null
-
-    console.log("Pagina de Autentificação do Usuario")
-    console.log(user);
-
-
-    function mudaNome() {
-        var novoNome = document.getElementById('nome').value;
-        setNome(novoNome);
-        console.log("novoNome: " + novoNome)
-    }
-
-    function mudaTelefone() {
-        var novoTelefone = document.getElementById('telefone').value;
-        setTelefone(novoTelefone);
-        console.log("novoTelefone: " + novoTelefone)
-    }
-
-    async function loadUser() {
-        const options = {
-            method: 'GET',
-            url: `http://localhost:3000/api/usuario/cadastro/${user.email}/consumidor`
-        };
-        await Axios.request(options).then(function (response) {
-            console.log(response.data);
-            usuario = response.data;
-            console.log("Usuario: ");
-            console.log(usuario);
-        }).catch(function (error) {
-            console.log("Erro do sistema: " + error);
-        });
-
-        await loadConsumidor(usuario.id);
-    }
-
-    async function loadConsumidor(id) {
+    function loadConsumidor(id) {
         const options = {
             method: 'GET',
             url: `http://localhost:3000/api/consumidor/${id}`
         };
-        await Axios.request(options).then(function (response) {
+        Axios.request(options).then(function (response) {
+            const resp = response.data;
+            console.log("Response data")
             console.log(response.data);
-            setIdC(response.data.idConsumidor);
-            setCPF(response.data.CPF);
-            setNome(response.data.nome);
-            setTelefone(response.data.telefone);
-            console.log("Consumidor: ");
-            console.log("idC:" + idC);
-            console.log("nome:" + nome);
-            console.log("cpf:" + cpf);
-            console.log("telefone:" + telefone);
+
+            setIdC(() => resp.idConsumidor)
+            setNome(() => resp.nome)
+            setCPF(() => resp.CPF)
+            setTelefone(() => resp.telefone)
+            setUsuario(() => id)
+
+            console.log(idC)
+            console.log(nome)
+            console.log(cpf)
+            console.log(telefone)
 
         }).catch(function (error) {
             console.log("Erro do sistema: " + error);
         });
+    }
+
+    function loadEnderecos(id) {
+
+        var lista = document.getElementById('enderecos');
+        lista.hidden = false;
+
+        const options = {
+            method: 'GET',
+            url: `http://localhost:3000/api/endereco/usuario/${id}`
+        };
+
+        Axios.request(options).then(function (response) {
+            var endereco = response.data
+            setEnderecos(() => endereco);
+            console.log("Endereços: ")
+            console.log(enderecos);
+
+        }).catch(function (error) {
+            console.log("Erro do sistema: " + error);
+        });
+
+        /*
+        var lista = document.getElementById('lista')
+        var elemento = document.createElement('span')
+        var parentLista = lista.parentNode
+
+        parentLista.insertBefore(lista , elemento)
+        lista.insertBefore
+        */
+
+    }
+
+    function mudaNome() {
+        var novoNome = document.getElementById('nome').value;
+
+        if (novoNome.length == null || novoNome.length == "") {
+            toast({
+                title: 'Insira um nome valido',
+                description: "Nome invalido",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+
+            var options = {
+                method: 'PUT',
+                url: `http://localhost:3000/api/consumidor/${idC}`,
+                headers: { 'Content-Type': 'application/json' },
+                data: { nome: novoNome, cpf: cpf, telefone: telefone },
+            };
+
+            Axios.request(options).then(function (response) {
+                console.log(response.data);
+                toast({
+                    title: 'Nome Alterado com sucesso',
+                    description: `Novo nome: ${novoNome}`,
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            }).catch(function (error) {
+                console.error(error);
+                toast({
+                    title: 'Falha ao Alterar o nome',
+                    description: `Erro ao alterar o nome !!!`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            });
+        }
+    }
+
+    function mudaTelefone() {
+        var novoTelefone = document.getElementById('telefone').value;
+
+        if (novoTelefone.length != 11) {
+            toast({
+                title: 'Insira um Numero de Telefone valido',
+                description: "Valor de Telefone invalido",
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+        } else {
+
+            var options = {
+                method: 'PUT',
+                url: `http://localhost:3000/api/consumidor/${idC}`,
+                headers: { 'Content-Type': 'application/json' },
+                data: { nome: nome, cpf: cpf, telefone: novoTelefone },
+            };
+
+            Axios.request(options).then(function (response) {
+                console.log(response.data);
+                toast({
+                    title: 'Telefone Alterado com sucesso',
+                    description: `Novo Telefone: ${novoTelefone}`,
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            }).catch(function (error) {
+                console.error(error);
+                toast({
+                    title: 'Falha ao Alterar o telefone',
+                    description: `Erro ao alterar o telefone !!!`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            });
+        }
     }
 
     const size = '96px';
@@ -129,7 +228,7 @@ export default function autentificado() {
     `;
 
     return (
-        <>
+        <div>
             <NavbarLogOn />
             <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
                 <Flex
@@ -164,12 +263,12 @@ export default function autentificado() {
 
                             <Input placeholder={nome} id="nome" />
 
-                            <Button 
-                                onClick={() => { mudaNome() }}
+                            <Button
+                                onClick={() => mudaNome()}
                                 leftIcon={<FcApprove />}
                                 colorScheme='teal'
                                 variant='solid'
-                                >
+                            >
                                 Save
                             </Button>
 
@@ -181,12 +280,12 @@ export default function autentificado() {
 
                             <Divider />
 
-                            <Button 
-                                leftIcon={<FcPhoneAndroid />} 
-                                colorScheme='teal' 
-                                variant='solid' 
-                                onClick={() =>{ mudaTelefone() }}
-                                >
+                            <Button
+                                leftIcon={<FcPhoneAndroid />}
+                                colorScheme='teal'
+                                variant='solid'
+                                onClick={() => { mudaTelefone() }}
+                            >
                                 Save
                             </Button>
                             <Stack spacing={6}>
@@ -199,16 +298,31 @@ export default function autentificado() {
                         </Stack>
                     </Stack>
                 </Flex>
+
+                <Center>
+
+                    <Divider orientation='vertical' />
+
+                </Center>
+
+
                 <Flex flex={1}>
-                    <Image
-                        alt={'Login Image'}
-                        objectFit={'cover'}
-                        src={
-                            'https://www.howtogeek.com/wp-content/uploads/2021/01/instagram-profile-on-a-smartphone.jpg?width=1198&trim=1,1&bg-color=000&pad=1,1'
-                        }
-                    />
+                    
+                    <Button
+                        leftIcon={<FcPhoneAndroid />}
+                        colorScheme='teal'
+                        variant='solid'
+                        onClick={() => { loadEnderecos(usuario) }}
+                    >
+                        Mostrar endereços
+                    </Button>
+                    
+                    <div id='enderecos' hidden={true} >
+                        <Card enderecos={enderecos} />
+                    </div>
+
                 </Flex>
             </Stack>
-        </>
+        </div>
     )
 }

@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 require("./app/routes/usuario.routes.js")(app);
 require("./app/routes/consumidor.routes.js")(app);
 require("./app/routes/fornecedor.routes.js")(app);
+require("./app/routes/endereco.routes.js")(app);
 
 // set port, listen for requests
 const PORT = 3000;

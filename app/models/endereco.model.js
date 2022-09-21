@@ -29,7 +29,7 @@ Endereco.findByIdUsuario = (idUsuario , result) => {
       result(null, err);
       return;
     }
-    console.log("tutorials: ", res);
+    console.log("Enderecos: ", res);
     result(null, res);
   });
 };

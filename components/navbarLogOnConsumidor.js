@@ -96,9 +96,6 @@ export default function navbarLogOnConsumidor() {
                     />
                   </Center>
                   <br />
-                  <Center>
-                    <p>Nome da Pessoa</p>
-                  </Center>
                   <br />
                   <MenuDivider />
                   <MenuItem>Cotação</MenuItem>
