@@ -1,4 +1,4 @@
-<h1 align="center">GestON</h1>
+<h1 align="center">I-Tiplace</h1>
 
 <img src="./src/Assets/gif.gif" alt="Descrição da imagem">
 
