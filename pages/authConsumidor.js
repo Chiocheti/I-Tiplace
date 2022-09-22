@@ -57,24 +57,12 @@ export default function autentificado(text) {
         //setUsuario(() => resp.id)
         console.log("Usuario: ");
         console.log(usuario);
-        toast({
-            title: 'Login efetuado com sucesso',
-            description: `Seja bem vindo de volta!`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        })
+
         loadConsumidor(usuario.id);
     }).catch(function (error) {
         console.log(error);
-        toast({
-            title: 'Você não possuí uma conta',
-            description: `Crie sua conta para ter acesso a esta area!`,
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-        })
-        //Router.push('/cadastro');
+
+        Router.push('/cadastro');
     });
 
     function loadConsumidor(id) {
@@ -137,7 +125,7 @@ export default function autentificado(text) {
     function mudaNome() {
         var novoNome = document.getElementById('nome').value;
 
-        if (novoNome.length == null || novoNome.length == "") {
+        if (novoNome.length < 4) {
             toast({
                 title: 'Insira um nome valido',
                 description: "Nome invalido",
@@ -179,7 +167,7 @@ export default function autentificado(text) {
     function mudaTelefone() {
         var novoTelefone = document.getElementById('telefone').value;
 
-        if (novoTelefone.length != 11) {
+        if (novoTelefone.length != 11 || isNaN(novoTelefone)) {
             toast({
                 title: 'Insira um Numero de Telefone valido',
                 description: "Valor de Telefone invalido",
@@ -307,7 +295,7 @@ export default function autentificado(text) {
 
 
                 <Flex flex={1}>
-                    
+
                     <Button
                         leftIcon={<FcPhoneAndroid />}
                         colorScheme='teal'
@@ -316,7 +304,7 @@ export default function autentificado(text) {
                     >
                         Mostrar endereços
                     </Button>
-                    
+
                     <div id='enderecos' hidden={true} >
                         <Card enderecos={enderecos} />
                     </div>

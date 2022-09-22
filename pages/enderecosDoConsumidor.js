@@ -12,8 +12,7 @@ import {
     Text,
     useColorModeValue,
     Flex,
-    Spacer,
-
+    Spacer
 } from '@chakra-ui/react'
 
 import UseAuth from '../hooks/useAuth'
@@ -25,6 +24,7 @@ import React , { useState } from 'react'
 
 export default function enderecoDoConsumidor() {
 
+    const toast = useToast()
 
     const { user, signin, signout } = UseAuth();
 
@@ -90,14 +90,26 @@ export default function enderecoDoConsumidor() {
             headers: { 'Content-Type': 'application/json' },
             data: { idUsuario: usuario.id , cep: cep , numero:numero , rua:logradouro , bairro:bairro , cidade:cidade , estado:estado}
         };
-
         Axios.request(options).then(function (response) {
             console.log(response.data);
+            toast({
+                title: 'Endereço cadastrado com sucesso',
+                description: `Seu endereço foi cadastrado com sucesso !!!`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
         }).catch(function (error) {
             console.error(error);
+            toast({
+                title: 'Falha ao cadastrar o endereço',
+                description: `Erro ao cadastrar o endereço !!!`,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
         });
     }
-
     return (
         <>
             <NavbarLogOnConsumidor/>
@@ -147,7 +159,6 @@ export default function enderecoDoConsumidor() {
                                             </FormLabel>
                                             <Input
                                                 id='cep'
-                                                type='email'
                                                 placeholder="Digite aqui seu Cep apenas com numeros"
                                             />
                                             <Stack >

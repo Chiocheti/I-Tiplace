@@ -56,7 +56,7 @@ export default function criarConta() {
         const telefone = document.getElementById("telefoneFornecedor").value;
         const cnpj = document.getElementById("cnpj").value;
         const nomeFantasia = document.getElementById("nomeFantasia").value;
-        if (cnpj.length != 18) {
+        if (cnpj.length != 18 || isNaN(cnpj)) {
             toast({
                 title: 'Insira um CNPJ valido',
                 description: "Valor de CNPJ invalido",
@@ -65,7 +65,7 @@ export default function criarConta() {
                 isClosable: true,
             })
         } else {
-            if (telefone.length != 11) {
+            if (telefone.length != 11 || isNaN(telefone)) {
                 toast({
                     title: 'Insira um Numero de Telefone valido',
                     description: "Valor de Telefone invalido",
@@ -74,30 +74,40 @@ export default function criarConta() {
                     isClosable: true,
                 })
             } else {
-                const options = {
-                    method: 'GET',
-                    url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
-                };
-                Axios.request(options).then(function (response) {
-                    console.log(response.data);
-                    console.log("Esse email ja esta em uso !!!");
+                if (nomeFantasia.length <= 4) {
                     toast({
-                        title: 'Email Ja em uso',
-                        description: "Tente cadastrar com outro email",
-                        status: 'error',
+                        title: 'Insira um nome valido',
+                        description: "Nome deve conter pelo menos 5 caracteres",
+                        status: 'warning',
                         duration: 9000,
                         isClosable: true,
                     })
-                }).catch(function (error) {
-                    toast({
-                        title: 'Conta Criada com Sucesso',
-                        description: `Bem Vindo ${nomeFantasia} vamos vender!!!`,
-                        status: 'success',
-                        duration: 3000,
-                        isClosable: true,
-                    })
-                    registerFornecedor();
-                });
+                } else {
+                    const options = {
+                        method: 'GET',
+                        url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
+                    };
+                    Axios.request(options).then(function (response) {
+                        console.log(response.data);
+                        console.log("Esse email ja esta em uso !!!");
+                        toast({
+                            title: 'Email Ja em uso',
+                            description: "Tente cadastrar com outro email",
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }).catch(function (error) {
+                        toast({
+                            title: 'Conta Criada com Sucesso',
+                            description: `Bem Vindo ${nomeFantasia} vamos vender!!!`,
+                            status: 'success',
+                            duration: 3000,
+                            isClosable: true,
+                        })
+                        registerFornecedor();
+                    });
+                }
             }
         }
     }
@@ -106,7 +116,7 @@ export default function criarConta() {
         const cpf = document.getElementById("cpf").value;
         const telefone = document.getElementById("telefoneConsumidor").value;
         const nomeConsumidor = document.getElementById("nomeConsumidor").value;
-        if (cpf.length != 11) {
+        if (cpf.length != 11 || isNaN(cpf)) {
             toast({
                 title: 'Insira um CPF valido',
                 description: "Valor de CPF invalido",
@@ -115,7 +125,7 @@ export default function criarConta() {
                 isClosable: true,
             })
         } else {
-            if (telefone.length != 11) {
+            if (telefone.length != 11 || isNaN(telefone)) {
                 toast({
                     title: 'Insira um Numero de Telefone valido',
                     description: "Valor de Telefone invalido",
@@ -124,30 +134,40 @@ export default function criarConta() {
                     isClosable: true,
                 })
             } else {
-                const options = {
-                    method: 'GET',
-                    url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
-                };
-                Axios.request(options).then(function (response) {
-                    console.log(response.data);
-                    console.log("Esse email ja esta em uso !!!");
+                if (nomeConsumidor.length < 4) {
                     toast({
-                        title: 'Email Ja em uso',
-                        description: "Tente cadastrar com outro email",
-                        status: 'error',
+                        title: 'Insira um nome valido',
+                        description: "Nome deve conter pelo menos 4 caracteres",
+                        status: 'warning',
                         duration: 9000,
                         isClosable: true,
                     })
-                }).catch(function (error) {
-                    toast({
-                        title: 'Conta Criada com Sucesso',
-                        description: `Bem Vindo ${nomeConsumidor} !!!`,
-                        status: 'success',
-                        duration: 3000,
-                        isClosable: true,
-                    })
-                    registerConsumidor();
-                });
+                } else {
+                    const options = {
+                        method: 'GET',
+                        url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
+                    };
+                    Axios.request(options).then(function (response) {
+                        console.log(response.data);
+                        console.log("Esse email ja esta em uso !!!");
+                        toast({
+                            title: 'Email Ja em uso',
+                            description: "Tente cadastrar com outro email",
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        })
+                    }).catch(function (error) {
+                        toast({
+                            title: 'Conta Criada com Sucesso',
+                            description: `Bem Vindo ${nomeConsumidor} !!!`,
+                            status: 'success',
+                            duration: 3000,
+                            isClosable: true,
+                        })
+                        registerConsumidor();
+                    });
+                }
             }
         }
     }
@@ -160,7 +180,6 @@ export default function criarConta() {
             headers: { 'Content-Type': 'application/json' },
             data: { email: user.email, cadastro: cadastro }
         };
-
         Axios.request(options).then(function (response) {
             console.log(response.data);
         }).catch(function (error) {
@@ -169,7 +188,6 @@ export default function criarConta() {
     }
 
     async function registerConsumidor() {
-
         // Cadastra o usuario
         await registerUsuario();
 
@@ -257,9 +275,7 @@ export default function criarConta() {
     }
     return (
         <>
-
             <NavbarLogOn />
-
             <div
                 spacing={1}
                 w={'full'}
@@ -364,13 +380,6 @@ export default function criarConta() {
                                             <Input
                                                 placeholder='Ex: 20:00:00 '
                                                 id='hora_fecha' />
-
-                                            <center>
-                                                <Checkbox
-                                                    defaultChecked>
-                                                    Manter Conectado
-                                                </Checkbox>
-                                            </center>
                                             <Button
                                                 colorScheme='teal'
                                                 variant='outline'
@@ -416,13 +425,6 @@ export default function criarConta() {
                                             <Input
                                                 placeholder='Ex: 19999999999'
                                                 id='telefoneConsumidor' />
-
-                                            <center>
-                                                <Checkbox
-                                                    defaultChecked>
-                                                    Manter Conectado
-                                                </Checkbox>
-                                            </center>
                                             <Button
                                                 colorScheme='teal'
                                                 variant='outline'

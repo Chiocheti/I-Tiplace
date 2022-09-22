@@ -51,23 +51,9 @@ export default function autentificado() {
         usuario = response.data;
         console.log("Usuario: ");
         console.log(usuario);
-        toast({
-            title: 'Login efetuado com sucesso',
-            description: `Seja bem vindo de volta!`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        })
         loadFornecedor(usuario.id);
     }).catch(function (error) {
         console.log(error);
-        toast({
-            title: 'Você não possuí uma conta',
-            description: `Crie sua conta para ter acesso a esta area!`,
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-        })
         Router.push('/cadastro');
     });
 
@@ -103,7 +89,7 @@ export default function autentificado() {
     function mudaNome() {
         var novoNomeFantasia = document.getElementById('nomeFantasia').value;
 
-        if (novoNomeFantasia == null || novoNomeFantasia.length == "") {
+        if (novoNomeFantasia.length <= 4) {
             toast({
                 title: 'Insira um nome valido',
                 description: "Nome invalido",
@@ -143,7 +129,7 @@ export default function autentificado() {
     function mudaTelefone() {
         var novoTelefone = document.getElementById('telefone').value;
 
-        if (novoTelefone.length != 11) {
+        if (novoTelefone.length != 11 || isNaN(novoTelefone)) {
             toast({
                 title: 'Insira um Numero de Telefone valido',
                 description: "Valor de Telefone invalido",

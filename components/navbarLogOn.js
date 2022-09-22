@@ -96,13 +96,7 @@ export default function navbarLogOff() {
                     />
                   </Center>
                   <br />
-                  <Center>
-                    <p>Nome da Pessoa</p>
-                  </Center>
-                  <br />
                   <MenuDivider />
-                  <MenuItem>Carrinho</MenuItem>
-                  <MenuItem>Abrir meu Perfil</MenuItem>
                   <MenuItem onClick={() => { goHome() }} > Deslogar </MenuItem>
                 </MenuList>
               </Menu>

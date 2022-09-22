@@ -96,12 +96,9 @@ import {
                       />
                     </Center>
                     <br />
-                    <Center>
-                      <p>Nome da Pessoa</p>
-                    </Center>
+          
                     <br />
                     <MenuDivider />
-                    <MenuItem>Carrinho</MenuItem>
                     <MenuItem onClick={() => {Router.push('/authFornecedor')}} >Abrir meu Perfil</MenuItem>
                     <MenuItem onClick={() => { goHome() }} > Deslogar </MenuItem>
                   </MenuList>

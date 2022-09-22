@@ -2,7 +2,7 @@
 
 <img src="./src/Assets/gif.gif" alt="Descrição da imagem">
 
-> 🔎 UM SISTEMA WEB PARA GERENCIAMENTO DE COMPRAS ONLINE.
+> 🔎 Um marketplace focado em produtos agropecuários com o intuito de facilitar, agilizar e melhorar as buscas e compras de produtos agricolas.
 
 ## :page_facing_up: Informações
 

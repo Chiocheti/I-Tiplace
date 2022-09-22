@@ -96,7 +96,7 @@ export default function navbarLogOff() {
                   variant={'outline'}
                   leftIcon={<FcGoogle />}>
                   <Center>
-                    <Text>Sign in with Google</Text>
+                    <Text>Cadastrar com Google</Text>
                   </Center>
                 </Button>
                 <Button onClick={() => { authFornecedor() }}
