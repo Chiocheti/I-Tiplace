@@ -57,6 +57,34 @@ export default function autentificado() {
         Router.push('/cadastro');
     });
 
+    function formatadorDeTelefone(telefone) {
+        telefone = telefone.replace(/^(\d{2})(\d)/g, "($1)$2"); //Coloca parênteses em volta dos dois primeiros dígitos
+        var novoTelefone = telefone.replace(/(\d)(\d{5})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+        console.log('Telefone formatado:')
+        console.log(novoTelefone)
+        return novoTelefone;
+    }
+
+    function formataPraSalvar(telefone) {
+        let part1 = telefone.slice(0, 8)
+        console.log(part1)
+        let part2 = telefone.slice(9, 10)
+        console.log(part2)
+        let part3 = telefone.slice(10,)
+        console.log(part3)
+        console.log("Telefone para salvar: ")
+        let telefoneParaSalvar = `${part1}${part2}-${part3}`
+        console.log(telefoneParaSalvar)
+        return telefoneParaSalvar
+    }
+
+    function testaTelefone(telefone) {
+        var regex = new RegExp('^\\([0-9]{2}\\)((3[0-9]{3}-[0-9]{4})|(9[0-9]{3}-[0-9]{5}))$');
+        console.log("Teste do Telefone:")
+        console.log(regex.test(telefone))
+        return regex.test(telefone);
+    }
+
     function loadFornecedor(id) {
         const options = {
             method: 'GET',
@@ -89,7 +117,7 @@ export default function autentificado() {
     function mudaNome() {
         var novoNomeFantasia = document.getElementById('nomeFantasia').value;
 
-        if (novoNomeFantasia.length <= 4) {
+        if (novoNomeFantasia.length < 1) {
             toast({
                 title: 'Insira um nome valido',
                 description: "Nome invalido",
@@ -128,8 +156,9 @@ export default function autentificado() {
 
     function mudaTelefone() {
         var novoTelefone = document.getElementById('telefone').value;
+        var telefoneFormatado = formatadorDeTelefone(novoTelefone)
 
-        if (novoTelefone.length != 11 || isNaN(novoTelefone)) {
+        if (novoTelefone.length != 11 || isNaN(novoTelefone) || !testaTelefone(telefoneFormatado)) {
             toast({
                 title: 'Insira um Numero de Telefone valido',
                 description: "Valor de Telefone invalido",
@@ -138,12 +167,12 @@ export default function autentificado() {
                 isClosable: true,
             })
         } else {
-
+            var telefoneParaSalvar = formataPraSalvar(telefoneFormatado)
             var options = {
                 method: 'PUT',
                 url: `http://localhost:3000/api/fornecedor/${idF}`,
                 headers: { 'Content-Type': 'application/json' },
-                data: { nomeFantasia: nomeFantasia, cnpj: cnpj, telefone: novoTelefone, hora_abre: hora_abre, hora_fecha: hora_fecha },
+                data: { nomeFantasia: nomeFantasia, cnpj: cnpj, telefone: telefoneParaSalvar, hora_abre: hora_abre, hora_fecha: hora_fecha },
             };
 
             Axios.request(options).then(function (response) {

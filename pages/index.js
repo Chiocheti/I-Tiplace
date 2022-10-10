@@ -39,7 +39,7 @@ export default function Home() {
           UM SISTEMA WEB PARA GERENCIAMENTO <br/> DE COMPRAS ONLINE
           </Text>
           <Text color={'gray.500'}>
-          Entre, crie sua conta <br/> e aproveite a nossa seleção de mercados
+          Entre, crie sua conta
           </Text>
         </Stack>
       </Container>

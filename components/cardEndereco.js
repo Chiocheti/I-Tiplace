@@ -6,7 +6,6 @@ import Item from './itemEndereco'
 export default function card({ enderecos }) {
     return (
         <>
-
             <Box margin={'10px'}>
                 {
                     enderecos.map((endereco) => (
@@ -14,9 +13,6 @@ export default function card({ enderecos }) {
                     ))
                 }
             </Box>
-
-            
-
         </>
     )
 }
