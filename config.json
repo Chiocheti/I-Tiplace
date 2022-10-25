@@ -1,10 +1,10 @@
 {
     "app": 3001,
   
-    "host": "140.238.184.159",
+    "host": "135.148.154.150",
     "user": "gabriel",
     "password": "chiocheti",
-    "database": "i_tiplace",
+    "database": "tcc",
     "port": 3306,
   
     "apiKey": "AIzaSyBjemehS5EQki-S_svPwGTMWxgsQNsQ4lQ",

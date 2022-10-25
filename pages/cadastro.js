@@ -490,12 +490,15 @@ export default function criarConta() {
                                             </FormLabel>
                                             <Input
                                                 placeholder='Ex: 08:00:00 '
+                                                type="time"
                                                 id='hora_abre' />
+                                                
 
                                             <FormLabel> Hora Fecha:
                                             </FormLabel>
                                             <Input
-                                                placeholder='Ex: 20:00:00 '
+                                                placeholder='Ex: 20:00 '
+                                                type="time"
                                                 id='hora_fecha' />
                                             <Button
                                                 colorScheme='teal'

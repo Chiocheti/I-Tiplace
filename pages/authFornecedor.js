@@ -22,7 +22,7 @@ import Axios from 'axios';
 import Router from "next/router";
 import React, { useState } from 'react';
 import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { FcPhoneAndroid, FcApprove , FcClock } from "react-icons/fc";
+import { FcPhoneAndroid, FcApprove, FcClock } from "react-icons/fc";
 
 export default function autentificado() {
 
@@ -114,177 +114,81 @@ export default function autentificado() {
         });
     }
 
-    function mudaNome() {
+    function salva() {
         var novoNomeFantasia = document.getElementById('nomeFantasia').value;
-
-        if (novoNomeFantasia.length < 1) {
-            toast({
-                title: 'Insira um nome valido',
-                description: "Nome invalido",
-                status: 'warning',
-                duration: 9000,
-                isClosable: true,
-            })
-        } else {
-            var options = {
-                method: 'PUT',
-                url: `http://localhost:3000/api/fornecedor/${idF}`,
-                headers: { 'Content-Type': 'application/json' },
-                data: { nomeFantasia: novoNomeFantasia, cnpj: cnpj, telefone: telefone, hora_abre: hora_abre, hora_fecha: hora_fecha },
-            };
-            Axios.request(options).then(function (response) {
-                console.log(response.data)
-                toast({
-                    title: 'Nome Alterado com sucesso',
-                    description: `Novo nome: ${novoNomeFantasia}`,
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            }).catch(function (error) {
-                console.error(error);
-                toast({
-                    title: 'Falha ao Alterar o nome',
-                    description: `Erro ao alterar o nome !!!`,
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            })
-        }
-    }
-
-    function mudaTelefone() {
         var novoTelefone = document.getElementById('telefone').value;
-        var telefoneFormatado = formatadorDeTelefone(novoTelefone)
-
-        if (novoTelefone.length != 11 || isNaN(novoTelefone) || !testaTelefone(telefoneFormatado)) {
-            toast({
-                title: 'Insira um Numero de Telefone valido',
-                description: "Valor de Telefone invalido",
-                status: 'warning',
-                duration: 9000,
-                isClosable: true,
-            })
-        } else {
-            var telefoneParaSalvar = formataPraSalvar(telefoneFormatado)
-            var options = {
-                method: 'PUT',
-                url: `http://localhost:3000/api/fornecedor/${idF}`,
-                headers: { 'Content-Type': 'application/json' },
-                data: { nomeFantasia: nomeFantasia, cnpj: cnpj, telefone: telefoneParaSalvar, hora_abre: hora_abre, hora_fecha: hora_fecha },
-            };
-
-            Axios.request(options).then(function (response) {
-                console.log(response.data);
-                toast({
-                    title: 'Telefone Alterado com sucesso',
-                    description: `Novo Telefone: ${novoTelefone}`,
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            }).catch(function (error) {
-                console.error(error);
-                toast({
-                    title: 'Falha ao Alterar o telefone',
-                    description: `Erro ao alterar o telefone !!!`,
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            });
-        }
-    }
-
-    function mudaHora_abre() {
+        var telefoneFormatado = formatadorDeTelefone(novoTelefone);
+        var telefoneParaSalvar = null
         var novoHora_abre = document.getElementById('hora_abre').value;
-
-        if (novoHora_abre == null || novoHora_abre == "") {
-            toast({
-                title: 'Insira uma hora valida',
-                description: "Hora invalida",
-                status: 'warning',
-                duration: 9000,
-                isClosable: true,
-            })
-        } else {
-            var options = {
-                method: 'PUT',
-                url: `http://localhost:3000/api/fornecedor/${idF}`,
-                headers: { 'Content-Type': 'application/json' },
-                data: { nomeFantasia: nomeFantasia, cnpj: cnpj, telefone: telefone, hora_abre: novoHora_abre, hora_fecha: hora_fecha },
-            };
-            Axios.request(options).then(function (response) {
-                console.log(response.data)
-                toast({
-                    title: 'Hora Alterada com sucesso',
-                    description: `Nova hora: ${novoHora_abre}`,
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            }).catch(function (error) {
-                console.error(error);
-                toast({
-                    title: 'Falha ao Alterar a Hora',
-                    description: `Erro ao alterar a hora !!!`,
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            })
-        }
-    }
-
-    function mudaHora_fecha() {
         var novoHora_fecha = document.getElementById('hora_fecha').value;
 
-        if (novoHora_fecha == null || novoHora_fecha == "") {
+        if (novoNomeFantasia == "" || novoNomeFantasia == null) {
+            novoNomeFantasia = nomeFantasia
+        } else {
+            if (novoNomeFantasia.length < 1) {
+                toast({
+                    title: 'Nome invalido',
+                    description: "Insira um nome valido",
+                    status: 'warning',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                novoNomeFantasia = nomeFantasia
+            }
+        }
+        if (novoTelefone == "" || novoTelefone == null) {
+            telefoneParaSalvar = telefone
+        } else {
+            if (novoTelefone.length != 11 || isNaN(novoTelefone || !testaTelefone(telefoneFormatado))) {
+                toast({
+                    title: 'Insira um Numero de Telefone valido',
+                    description: "Valor de Telefone invalido",
+                    status: 'warning',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                telefoneParaSalvar = telefone
+            } else {
+                telefoneParaSalvar = formataPraSalvar(telefoneFormatado)
+            }
+        }
+        if (novoHora_abre == "" || novoHora_abre == null) {
+            novoHora_abre = hora_abre
+        }
+        if (novoHora_fecha == "" || novoHora_fecha == null) {
+            novoHora_fecha = hora_fecha
+        }
+
+        var options = {
+            method: 'PUT',
+            url: `http://localhost:3000/api/fornecedor/${idF}`,
+            headers: { 'Content-Type': 'application/json' },
+            data: { nomeFantasia: novoNomeFantasia, cnpj: cnpj, telefone: telefoneParaSalvar, hora_abre: novoHora_abre, hora_fecha: novoHora_fecha },
+        };
+        Axios.request(options).then(function (response) {
+            console.log(response.data)
             toast({
-                title: 'Insira uma hora valida',
-                description: "Hora invalida",
-                status: 'warning',
-                duration: 9000,
+                title: 'Dados alterados com sucesso',
+                description: `Nome: ${novoNomeFantasia}||Telefone: ${telefoneParaSalvar}||Das ${novoHora_abre} as ${novoHora_fecha} `,
+                status: 'success',
+                duration: 5000,
                 isClosable: true,
             })
-        } else {
-            var options = {
-                method: 'PUT',
-                url: `http://localhost:3000/api/fornecedor/${idF}`,
-                headers: { 'Content-Type': 'application/json' },
-                data: { nomeFantasia: nomeFantasia, cnpj: cnpj, telefone: telefone, hora_abre: hora_abre, hora_fecha: novoHora_fecha },
-            };
-            Axios.request(options).then(function (response) {
-                console.log(response.data)
-                toast({
-                    title: 'Hora Alterada com sucesso',
-                    description: `Nova hora: ${novoHora_fecha}`,
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                })
-            }).catch(function (error) {
-                console.error(error);
-                toast({
-                    title: 'Falha ao Alterar a Hora',
-                    description: `Erro ao alterar a hora !!!`,
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                })
+            setNomeFantasia(novoNomeFantasia);
+            setTelefone(telefoneParaSalvar);
+            setHora_abre(novoHora_abre);
+            setHora_fecha(novoHora_fecha);
+        }).catch(function (error) {
+            console.error(error);
+            toast({
+                title: 'Falha ao alterar dados',
+                description: `Erro interno ao alterar os dados !!!`,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
             })
-        }
+        });
     }
-
-    const size = '96px';
-    const color = 'teal';
-
-    const pulseRing = keyframes`
-        0% {transform: scale(0.33);}
-        40%,50% {opacity: 0;}
-        100% {opacity: 0;}
-    `;
 
     return (
         <>
@@ -306,7 +210,7 @@ export default function autentificado() {
                                 </Center>
                                 <Center w="full">
                                     <Tag colorScheme='teal' w="full">
-                                        Consumidor
+                                        Fornecedor
                                     </Tag>
                                 </Center>
                             </Stack>
@@ -318,42 +222,24 @@ export default function autentificado() {
                             <Stack spacing={6}>
 
                                 <Divider />
-
-                                <Heading fontSize={'2xl'}>Nome Fantasia:</Heading>
-
+                                
+                                <Heading fontSize={'2xl'}>Nome Fantasia: {nomeFantasia}</Heading>
                                 <Input placeholder={nomeFantasia} id="nomeFantasia" />
-
-                                <Button
-                                    onClick={() => mudaNome()}
-                                    leftIcon={<FcApprove />}
-                                    colorScheme='teal'
-                                    variant='solid'
-                                >
-                                    Save
-                                </Button>
-
+                                
                                 <Divider />
 
-                                <Heading fontSize={'2xl'}>Telefone:</Heading>
-
+                                <Heading fontSize={'2xl'}>Telefone: {telefone}</Heading>
                                 <Input placeholder={telefone} id="telefone" />
 
                                 <Divider />
 
-                                <Button
-                                    leftIcon={<FcPhoneAndroid />}
-                                    colorScheme='teal'
-                                    variant='solid'
-                                    onClick={() => { mudaTelefone() }}
-                                >
-                                    Save
-                                </Button>
+                                <Heading fontSize={'2xl'}>Hora que abre: {hora_abre}</Heading>
+                                <Input placeholder={hora_abre} type='time' id="hora_abre" />
 
                                 <Divider />
 
-                                <Heading fontSize={'2xl'}>Hora que abre:</Heading>
-
-                                <Input placeholder={hora_abre} id="hora_abre" />
+                                <Heading fontSize={'2xl'}>Hora que Fecha: {hora_fecha}</Heading>
+                                <Input placeholder={hora_fecha} type='time' id="hora_fecha" />
 
                                 <Divider />
 
@@ -361,24 +247,7 @@ export default function autentificado() {
                                     leftIcon={<FcClock />}
                                     colorScheme='teal'
                                     variant='solid'
-                                    onClick={() => { mudaHora_abre() }}
-                                >
-                                    Save
-                                </Button>
-
-                                <Divider />
-
-                                <Heading fontSize={'2xl'}>Hora que Fecha:</Heading>
-
-                                <Input placeholder={hora_fecha} id="hora_fecha" />
-
-                                <Divider />
-
-                                <Button
-                                    leftIcon={<FcClock />}
-                                    colorScheme='teal'
-                                    variant='solid'
-                                    onClick={() => { mudaHora_fecha() }}
+                                    onClick={() => { salva() }}
                                 >
                                     Save
                                 </Button>
