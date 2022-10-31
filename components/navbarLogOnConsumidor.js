@@ -22,7 +22,7 @@ import {
   Stack,
   keyframes
 } from '@chakra-ui/react'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon , SunIcon , HamburgerIcon } from '@chakra-ui/icons';
 import UseAuth from '../hooks/useAuth'
 import Router from "next/router";
 
@@ -44,11 +44,6 @@ export default function navbarLogOnConsumidor() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, signin, signout } = UseAuth();
-
-  async function criarConta() {
-    await signin();
-    Router.push('/criarConta');
-  }
 
   function goHome() {
     Router.push('/');
@@ -72,7 +67,7 @@ export default function navbarLogOnConsumidor() {
                 </Button>
               </Stack>
             </Flex>
-            <Button colorScheme='green' onClick={() => goHome()}> Home</Button>
+            <Button colorScheme='green' onClick={() => Router.push("./")}> Home</Button>
           </ButtonGroup>
           <Wrap>
             <WrapItem>
@@ -83,8 +78,10 @@ export default function navbarLogOnConsumidor() {
                   variant={'link'}
                   cursor={'pointer'}
                   minW={0}>
-                  <Avatar
-                    src={user.photoURL}
+                  <IconButton
+                    marginRight='5'
+                    icon={<HamburgerIcon />}
+                    size={'2xl'}
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -92,17 +89,15 @@ export default function navbarLogOnConsumidor() {
                   <Center>
                     <Avatar
                       size={'2xl'}
-                      src={user.photoURL}
+                      src="./imagens/fotousuario.jpg"
                     />
                   </Center>
                   <br />
                   <br />
                   <MenuDivider />
-                  <MenuItem>Cotação</MenuItem>
-                  <MenuItem onClick={() => {Router.push('/authConsumidor')}} >Abrir meu Perfil</MenuItem>
-                  <MenuItem>Favoritos</MenuItem>
-                  <MenuItem onClick={() => {Router.push('/enderecosDoConsumidor')}}>Endereços</MenuItem>
-                  <MenuItem onClick={() => { goHome() }} > Deslogar </MenuItem>
+                  <MenuItem onClick={() => { Router.push('./authConsumidor') }} >Abrir meu Perfil</MenuItem>
+                  <MenuItem onClick={() => { Router.push('./enderecosDoConsumidor') }}>Endereços</MenuItem>
+                  <MenuItem onClick={() => Routwer.push("./")} > Deslogar </MenuItem>
                 </MenuList>
               </Menu>
             </WrapItem>

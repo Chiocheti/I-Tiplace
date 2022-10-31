@@ -8,9 +8,6 @@ import {
     Heading,
     Center,
     Divider,
-    Editable,
-    EditablePreview,
-    EditableTextarea
 } from '@chakra-ui/react';
 
 import UseAuth from '../hooks/useAuth'
@@ -104,7 +101,6 @@ export default function autentificado() {
     }
 
     function loadEnderecos(id) {
-
         var lista = document.getElementById('enderecos');
         lista.hidden = false;
 
@@ -122,21 +118,11 @@ export default function autentificado() {
         }).catch(function (error) {
             console.log("Erro do sistema: " + error);
         });
-
-        /*
-        var lista = document.getElementById('lista')
-        var elemento = document.createElement('span')
-        var parentLista = lista.parentNode
-
-        parentLista.insertBefore(lista , elemento)
-        lista.insertBefore
-        */
-
     }
 
     function salva() {
-        var novoNome = document.getElementById('nome').value;
-        var novoTelefone = document.getElementById('telefone').value;
+        var novoNome = document.getElementById('nome').value.trim();
+        var novoTelefone = document.getElementById('telefone').value.trim();
         var telefoneFormatado = formatadorDeTelefone(novoTelefone);
         var telefoneParaSalvar = null
 
@@ -161,8 +147,8 @@ export default function autentificado() {
                 toast({
                     title: 'Insira um Numero de Telefone valido',
                     description: "Valor de Telefone invalido",
-                    status: 'warning',
-                    duration: 9000,
+                    status: 'error',
+                    duration: 5000,
                     isClosable: true,
                 })
                 telefoneParaSalvar = telefone
@@ -179,9 +165,9 @@ export default function autentificado() {
         Axios.request(options).then(function (response) {
             console.log(response.data);
             toast({
-                title: 'Dados alterados com sucesso',
-                description: `Novo Telefone: ${telefoneFormatado} | Novo nome: ${novoNome}`,
-                status: 'success',
+                title: 'Dados atuais',
+                description: `Telefone: ${telefoneFormatado} | Nome: ${novoNome}`,
+                status: 'warning',
                 duration: 5000,
                 isClosable: true,
             })
@@ -213,7 +199,7 @@ export default function autentificado() {
                         <Stack direction={['column', 'row']} spacing={6}>
                             <Center>
                                 <Flex>
-                                    <Avatar size="xl" src={user.photoURL} />
+                                    <Avatar size="xl" src = "./imagens/fotousuario.jpg" />
                                 </Flex>
                             </Center>
                             <Center w="full">

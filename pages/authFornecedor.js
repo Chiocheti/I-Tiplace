@@ -21,8 +21,7 @@ import { AspectRatio, useToast } from '@chakra-ui/react'
 import Axios from 'axios';
 import Router from "next/router";
 import React, { useState } from 'react';
-import { EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { FcPhoneAndroid, FcApprove, FcClock } from "react-icons/fc";
+import { FcClock } from "react-icons/fc";
 
 export default function autentificado() {
 
@@ -115,12 +114,12 @@ export default function autentificado() {
     }
 
     function salva() {
-        var novoNomeFantasia = document.getElementById('nomeFantasia').value;
-        var novoTelefone = document.getElementById('telefone').value;
+        var novoNomeFantasia = document.getElementById('nomeFantasia').value.trim();
+        var novoTelefone = document.getElementById('telefone').value.trim();
         var telefoneFormatado = formatadorDeTelefone(novoTelefone);
         var telefoneParaSalvar = null
-        var novoHora_abre = document.getElementById('hora_abre').value;
-        var novoHora_fecha = document.getElementById('hora_fecha').value;
+        var novoHora_abre = document.getElementById('hora_abre').value.trim();
+        var novoHora_fecha = document.getElementById('hora_fecha').value.trim();
 
         if (novoNomeFantasia == "" || novoNomeFantasia == null) {
             novoNomeFantasia = nomeFantasia
@@ -129,7 +128,7 @@ export default function autentificado() {
                 toast({
                     title: 'Nome invalido',
                     description: "Insira um nome valido",
-                    status: 'warning',
+                    status: 'error',
                     duration: 9000,
                     isClosable: true,
                 })
@@ -143,7 +142,7 @@ export default function autentificado() {
                 toast({
                     title: 'Insira um Numero de Telefone valido',
                     description: "Valor de Telefone invalido",
-                    status: 'warning',
+                    status: 'error',
                     duration: 9000,
                     isClosable: true,
                 })
@@ -168,9 +167,9 @@ export default function autentificado() {
         Axios.request(options).then(function (response) {
             console.log(response.data)
             toast({
-                title: 'Dados alterados com sucesso',
-                description: `Nome: ${novoNomeFantasia}||Telefone: ${telefoneParaSalvar}||Das ${novoHora_abre} as ${novoHora_fecha} `,
-                status: 'success',
+                title: 'Dados Atuais',
+                description: `Nome: ${novoNomeFantasia} Telefone: ${telefoneParaSalvar} Das ${novoHora_abre} as ${novoHora_fecha} `,
+                status: 'warning',
                 duration: 5000,
                 isClosable: true,
             })
@@ -205,7 +204,7 @@ export default function autentificado() {
                             <Stack direction={['column', 'row']} spacing={6}>
                                 <Center>
                                     <Flex>
-                                        <Avatar size="xl" src={user.photoURL} />
+                                        <Avatar size="xl" src="./imagens/fotousuario.jpg" />
                                     </Flex>
                                 </Center>
                                 <Center w="full">

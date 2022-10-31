@@ -62,6 +62,7 @@ export default function autentificadoConsumidor() {
             setCPF(response.data.CPF);
             setNome(response.data.nome);
             setTelefone(response.data.telefone);
+            
             console.log("Consumidor: ");
             console.log("idC:" + idC);
             console.log("nome:" + nome);
@@ -104,9 +105,8 @@ export default function autentificadoConsumidor() {
                             <Image
                                 objectFit="cover"
                                 boxSize="100%"
-                                src={
-                                    user.photoURL
-                                }
+                                src="./imagens/fotousuario.jpg"
+                                
                             />
                         </Flex>
                         <Stack
@@ -163,7 +163,8 @@ export default function autentificadoConsumidor() {
                                     rounded={'full'}
                                     _focus={{
                                         bg: 'gray.200',
-                                    }}>
+                                    }}
+                                    onClick={() => Router.push("./")}>
                                     Home
                                 </Button>
                                 <Button onClick={() => Router.push('/authConsumidor')}

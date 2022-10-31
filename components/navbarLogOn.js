@@ -20,9 +20,10 @@ import {
   Flex,
   Heading,
   Stack,
-  keyframes
+  keyframes,
+  Icon
 } from '@chakra-ui/react'
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
 import UseAuth from '../hooks/useAuth'
 import Router from "next/router";
 
@@ -72,36 +73,8 @@ export default function navbarLogOff() {
                 </Button>
               </Stack>
             </Flex>
-            <Button colorScheme='green' onClick={() => goHome()}> Home</Button>
+            <Button colorScheme='green' marginRight='5' onClick={() => goHome()}> Home</Button>
           </ButtonGroup>
-          <Wrap>
-            <WrapItem>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
-                    src={user.photoURL}
-                  />
-                </MenuButton>
-                <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={user.photoURL}
-                    />
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem onClick={() => { goHome() }} > Deslogar </MenuItem>
-                </MenuList>
-              </Menu>
-            </WrapItem>
-          </Wrap>
         </Flex>
       </Box>
     </>

@@ -18,8 +18,6 @@ import Router from "next/router";
 import Axios from 'axios';
 import React, { useState } from 'react';
 
-
-
 export default function autentificadoFornecedor() {
 
     const { user, signin, signout } = UseAuth();
@@ -73,7 +71,7 @@ export default function autentificadoFornecedor() {
             console.log("CNPJ: " + cnpj);
             console.log("Telefone: " + telefone);
             console.log("Hora Abre: " + hora_abre);
-            console.log("Hora Fecha: " + hora_abre);
+            console.log("Hora Fecha: " + hora_fecha);
         }).catch(function (error) {
             console.log("Erro do sistema: " + error);
         });
@@ -110,9 +108,7 @@ export default function autentificadoFornecedor() {
                             <Image
                                 objectFit="cover"
                                 boxSize="100%"
-                                src={
-                                    user.photoURL
-                                }
+                                src="./imagens/fotousuario.jpg"
                             />
                         </Flex>
                         <Stack
@@ -165,7 +161,8 @@ export default function autentificadoFornecedor() {
                                     rounded={'full'}
                                     _focus={{
                                         bg: 'gray.200',
-                                    }}>
+                                    }}
+                                    onClick={() => Router.push("./")}>
                                     Home
                                 </Button>
                                 <Button onClick={() => Router.push('/authFornecedor')}

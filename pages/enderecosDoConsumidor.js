@@ -16,11 +16,11 @@ import {
 } from '@chakra-ui/react'
 
 import UseAuth from '../hooks/useAuth'
-import { FcHighPriority , FcOk } from "react-icons/fc";
+import { FcHighPriority, FcOk } from "react-icons/fc";
 import Router from "next/router";
 import Axios from 'axios';
 import NavbarLogOnConsumidor from "../components/navbarLogOnConsumidor"
-import React , { useState } from 'react'
+import React, { useState } from 'react'
 
 export default function enderecoDoConsumidor() {
 
@@ -28,11 +28,11 @@ export default function enderecoDoConsumidor() {
 
     const { user, signin, signout } = UseAuth();
 
-    var[cep , setCEP] = useState('')
-    var[logradouro , setLogradouro] = useState('')
-    var[bairro , setBairro] = useState('')
-    var[cidade , setCidade] = useState('')
-    var[estado , setEstado] = useState('')
+    var [cep, setCEP] = useState('')
+    var [logradouro, setLogradouro] = useState('')
+    var [bairro, setBairro] = useState('')
+    var [cidade, setCidade] = useState('')
+    var [estado, setEstado] = useState('')
 
     var usuario;
 
@@ -49,15 +49,14 @@ export default function enderecoDoConsumidor() {
         console.log(error);
     });
 
-
-    function buscaCEP(){
+    function buscaCEP() {
         var cep = document.getElementById('cep').value
         setCEP(cep)
         const options = {
             method: 'GET',
             url: `https://viacep.com.br/ws/${cep}/json/`
         };
-        Axios.request(options).then(function(response){
+        Axios.request(options).then(function (response) {
             console.log(response.data)
             var endereco = response.data
             console.log("Endedeço: ")
@@ -68,12 +67,12 @@ export default function enderecoDoConsumidor() {
             setCidade(endereco.localidade)
             setEstado(endereco.uf)
 
-        }).catch(function (error){
+        }).catch(function (error) {
             console.log(error)
         })
     }
 
-    function saveEndereco(){
+    function saveEndereco() {
         var numero = document.getElementById('numero').value;
 
         console.log('idUsuario: ' + usuario.id)
@@ -84,23 +83,7 @@ export default function enderecoDoConsumidor() {
         console.log('cidade: ' + cidade)
         console.log('estado: ' + estado)
 
-        var options = {
-            method: 'POST',
-            url: 'http://localhost:3000/api/endereco',
-            headers: { 'Content-Type': 'application/json' },
-            data: { idUsuario: usuario.id , cep: cep , numero:numero , rua:logradouro , bairro:bairro , cidade:cidade , estado:estado}
-        };
-        Axios.request(options).then(function (response) {
-            console.log(response.data);
-            toast({
-                title: 'Endereço cadastrado com sucesso',
-                description: `Seu endereço foi cadastrado com sucesso !!!`,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            })
-        }).catch(function (error) {
-            console.error(error);
+        if (usuario.id == null || usuario.id == undefined || usuario == "") {
             toast({
                 title: 'Falha ao cadastrar o endereço',
                 description: `Erro ao cadastrar o endereço !!!`,
@@ -108,11 +91,98 @@ export default function enderecoDoConsumidor() {
                 duration: 5000,
                 isClosable: true,
             })
-        });
+        } else {
+            if (cep == null || cep == undefined || cep == "") {
+                toast({
+                    title: 'Falha ao cadastrar o endereço',
+                    description: `Cep não Cadastrado !!!`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            } else {
+                if (numero == null || numero == undefined || numero == "" || isNaN(numero)) {
+                    toast({
+                        title: 'Falha ao cadastrar o endereço',
+                        description: `Numero Invalido !!!`,
+                        status: 'error',
+                        duration: 5000,
+                        isClosable: true,
+                    })
+                } else {
+                    if (logradouro == null || logradouro == undefined || logradouro == "") {
+                        toast({
+                            title: 'Falha ao cadastrar o endereço',
+                            description: `Rua não cadastrado !!!`,
+                            status: 'error',
+                            duration: 5000,
+                            isClosable: true,
+                        })
+                    } else {
+                        if (bairro == null || bairro == undefined || bairro == "") {
+                            toast({
+                                title: 'Falha ao cadastrar o endereço',
+                                description: `Bairro não cadastrado !!!`,
+                                status: 'error',
+                                duration: 5000,
+                                isClosable: true,
+                            })
+                        } else {
+                            if (cidade == null || cidade == undefined || cidade == "") {
+                                toast({
+                                    title: 'Falha ao cadastrar o endereço',
+                                    description: `Cidade não cadastrada !!!`,
+                                    status: 'error',
+                                    duration: 5000,
+                                    isClosable: true,
+                                })
+                            } else {
+                                if (estado == null || estado == undefined || estado == "") {
+                                    toast({
+                                        title: 'Falha ao cadastrar o endereço',
+                                        description: `Estado não cadastrado !!!`,
+                                        status: 'error',
+                                        duration: 5000,
+                                        isClosable: true,
+                                    })
+                                } else {
+                                    // Pode Cadastrar
+                                    var options = {
+                                        method: 'POST',
+                                        url: 'http://localhost:3000/api/endereco',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        data: { idUsuario: usuario.id, cep: cep, numero: numero, rua: logradouro, bairro: bairro, cidade: cidade, estado: estado }
+                                    };
+                                    Axios.request(options).then(function (response) {
+                                        console.log(response.data);
+                                        toast({
+                                            title: 'Endereço cadastrado com sucesso',
+                                            description: `Seu endereço foi cadastrado com sucesso !!!`,
+                                            status: 'success',
+                                            duration: 5000,
+                                            isClosable: true,
+                                        })
+                                    }).catch(function (error) {
+                                        console.error(error);
+                                        toast({
+                                            title: 'Falha ao cadastrar o endereço',
+                                            description: `Erro ao cadastrar o endereço !!!`,
+                                            status: 'error',
+                                            duration: 5000,
+                                            isClosable: true,
+                                        })
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return (
         <>
-            <NavbarLogOnConsumidor/>
+            <NavbarLogOnConsumidor />
             <div
                 spacing={1}
                 w={'full'}
@@ -170,10 +240,10 @@ export default function enderecoDoConsumidor() {
                                                         variant='outline'
                                                         align={['center']}>
                                                         Validar CEP
-                                                        
+
                                                     </Button>
                                                     <Spacer />
-                                                    <Button 
+                                                    <Button
                                                         leftIcon={<FcHighPriority />}
                                                         colorScheme='red'
                                                         variant='outline'
@@ -211,7 +281,7 @@ export default function enderecoDoConsumidor() {
                                                 placeholder='Numero:'
                                                 id='numero' />
                                             <Button
-                                                onClick={() => {saveEndereco()}}
+                                                onClick={() => { saveEndereco() }}
                                                 colorScheme='teal'
                                                 variant='outline'
                                                 align={['center']}>

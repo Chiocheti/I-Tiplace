@@ -52,7 +52,7 @@ export default function criarConta() {
         setCadastro("consumidor");
     }
 
-    function validaCNPJ(cnpj){
+    function validaCNPJ(cnpj) {
         const options = {
             method: 'GET',
             url: `https://brasilapi.com.br/api/cnpj/v1/${cnpj}`
@@ -60,19 +60,16 @@ export default function criarConta() {
         Axios.request(options).then(function (response) {
             console.log(response);
 
-            if(response.status == '200'){
+            if (response.status == '200') {
                 return true;
             }
-
             return false;
-
-            
         }).catch(function (error) {
             return false;
         });
     }
 
-    function formataCNPJ(cnpj){
+    function formataCNPJ(cnpj) {
         var cnpjFormatado = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
         console.log("cnpjFormatado");
         console.log(cnpjFormatado);
@@ -154,80 +151,102 @@ export default function criarConta() {
         console.log(regex.test(telefone))
         return regex.test(telefone);
     }
-    
-    function verificaFornecedor() {
-        const telefone = document.getElementById("telefoneFornecedor").value;
-        const cnpj = document.getElementById("cnpj").value;
-        var telefoneFormatado = formatadorDeTelefone(telefone)
-        const nomeFantasia = document.getElementById("nomeFantasia").value;
 
-        if (cnpj.length != 14 || isNaN(cnpj)) {
-            console.log("leng")
-            console.log(cnpj.length)
-            console.log("isNaN")
-            console.log(isNaN(cnpj))
-            console.log("ValidaCNPJ")
-            console.log(validaCNPJ(cnpj))
+    function verificaFornecedor() {
+        const telefone = document.getElementById("telefoneFornecedor").value.trim();
+        const cnpj = document.getElementById("cnpj").value.trim();
+        var telefoneFormatado = formatadorDeTelefone(telefone)
+        const nomeFantasia = document.getElementById("nomeFantasia").value.trim();
+        const hora_abre = document.getElementById("hora_abre").value.trim();
+        const hora_fecha = document.getElementById("hora_fecha").value.trim();
+
+        if (hora_abre == "" || hora_abre == null) {
             toast({
-                title: 'Insira um CNPJ valido',
-                description: "Valor de CNPJ invalido",
+                title: 'Insira uma hora valida',
+                description: "Valor de hora invalida",
                 status: 'warning',
                 duration: 9000,
                 isClosable: true,
             })
         } else {
-            if (telefone.length != 11 || isNaN(telefone) || !testaTelefone(telefoneFormatado)) {
+            if (hora_fecha == "" || hora_fecha == null) {
                 toast({
-                    title: 'Insira um Numero de Telefone valido',
-                    description: "Valor de Telefone invalido",
+                    title: 'Insira uma hora valida',
+                    description: "Valor de hora invalido",
                     status: 'warning',
                     duration: 9000,
                     isClosable: true,
                 })
             } else {
-                if (nomeFantasia.length < 1) {
+                if (cnpj.length != 14 || isNaN(cnpj)) {
+                    console.log("leng")
+                    console.log(cnpj.length)
+                    console.log("isNaN")
+                    console.log(isNaN(cnpj))
+                    console.log("ValidaCNPJ")
+                    console.log(validaCNPJ(cnpj))
                     toast({
-                        title: 'Insira um nome valido',
-                        description: "Nome deve conter pelo menos 1 caractere",
+                        title: 'Insira um CNPJ valido',
+                        description: "Valor de CNPJ invalido",
                         status: 'warning',
                         duration: 9000,
                         isClosable: true,
                     })
                 } else {
-                    const options = {
-                        method: 'GET',
-                        url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
-                    };
-                    Axios.request(options).then(function (response) {
-                        console.log(response.data);
-                        console.log("Esse email ja esta em uso !!!");
+                    if (telefone.length != 11 || isNaN(telefone) || !testaTelefone(telefoneFormatado)) {
                         toast({
-                            title: 'Email Ja em uso',
-                            description: "Tente cadastrar com outro email",
-                            status: 'error',
+                            title: 'Insira um Numero de Telefone valido',
+                            description: "Valor de Telefone invalido",
+                            status: 'warning',
                             duration: 9000,
                             isClosable: true,
                         })
-                    }).catch(function (error) {
-                        toast({
-                            title: 'Conta Criada com Sucesso',
-                            description: `Bem Vindo ${nomeFantasia} vamos vender!!!`,
-                            status: 'success',
-                            duration: 3000,
-                            isClosable: true,
-                        })
-                        registerFornecedor(formataPraSalvar(telefoneFormatado) , formataCNPJ(cnpj));
-                    });
+                    } else {
+                        if (nomeFantasia.length < 1) {
+                            toast({
+                                title: 'Insira um nome valido',
+                                description: "Nome deve conter pelo menos 1 caractere",
+                                status: 'warning',
+                                duration: 9000,
+                                isClosable: true,
+                            })
+                        } else {
+                            const options = {
+                                method: 'GET',
+                                url: `http://localhost:3000/api/usuario/cadastro/${user.email}/${cadastro}`
+                            };
+                            Axios.request(options).then(function (response) {
+                                console.log(response.data);
+                                console.log("Esse email ja esta em uso !!!");
+                                toast({
+                                    title: 'Email Ja em uso',
+                                    description: "Tente cadastrar com outro email",
+                                    status: 'error',
+                                    duration: 9000,
+                                    isClosable: true,
+                                })
+                            }).catch(function (error) {
+                                toast({
+                                    title: 'Conta Criada com Sucesso',
+                                    description: `Bem Vindo ${nomeFantasia} vamos vender!!!`,
+                                    status: 'success',
+                                    duration: 3000,
+                                    isClosable: true,
+                                })
+                                registerFornecedor(formataPraSalvar(telefoneFormatado), formataCNPJ(cnpj) , hora_abre , hora_fecha);
+                            });
+                        }
+                    }
                 }
             }
         }
     }
 
     function verificaConsumidor() {
-        const cpf = document.getElementById("cpf").value;
-        const telefone = document.getElementById("telefoneConsumidor").value;
+        const cpf = document.getElementById("cpf").value.trim();
+        const telefone = document.getElementById("telefoneConsumidor").value.trim();
         var telefoneFormatado = formatadorDeTelefone(telefone)
-        const nomeConsumidor = document.getElementById("nomeConsumidor").value;
+        const nomeConsumidor = document.getElementById("nomeConsumidor").value.trim();
         if (cpf.length != 11 || isNaN(cpf) || !TestaCPF(cpf)) {
             toast({
                 title: 'Insira um CPF valido',
@@ -276,6 +295,7 @@ export default function criarConta() {
                             isClosable: true,
                         })
                     }).catch(function (error) {
+                        console.log(error)
                         toast({
                             title: 'Conta Criada com Sucesso',
                             description: `Bem Vindo ${nomeConsumidor} !!!`,
@@ -285,7 +305,6 @@ export default function criarConta() {
                         })
                         registerConsumidor(formataPraSalvar(telefoneFormatado));
                     });
-
                 }
             }
         }
@@ -311,8 +330,8 @@ export default function criarConta() {
         await registerUsuario();
 
         var idConsumidor = null;
-        const nome = document.getElementById("nomeConsumidor").value;
-        const cpf = document.getElementById("cpf").value;
+        const nome = document.getElementById("nomeConsumidor").value.trim();
+        const cpf = document.getElementById("cpf").value.trim();
 
         const options = {
             method: 'GET',
@@ -346,15 +365,12 @@ export default function criarConta() {
         console.log("Telefone: " + telefone)
     }
 
-    async function registerFornecedor(telefone , cnpj) {
-
+    async function registerFornecedor(telefone, cnpj, hora_abre, hora_fecha) {
         // Cadastra o usuario
         await registerUsuario();
 
         var idFornecedor = null;
-        const nomeFantasia = document.getElementById("nomeFantasia").value;
-        const hora_abre = document.getElementById("hora_abre").value;
-        const hora_fecha = document.getElementById("hora_fecha").value;
+        const nomeFantasia = document.getElementById("nomeFantasia").value.trim();
 
         const options = {
             method: 'GET',
@@ -492,7 +508,7 @@ export default function criarConta() {
                                                 placeholder='Ex: 08:00:00 '
                                                 type="time"
                                                 id='hora_abre' />
-                                                
+
 
                                             <FormLabel> Hora Fecha:
                                             </FormLabel>
